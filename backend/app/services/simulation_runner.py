@@ -213,10 +213,7 @@ class SimulationRunner:
     """
     
     # Directory storing run state JSON files
-    RUN_STATE_DIR = os.path.join(
-        os.path.dirname(__file__),
-        '../../uploads/simulations'
-    )
+    RUN_STATE_DIR = Config.OASIS_SIMULATION_DATA_DIR
     
     # Directory containing execution scripts
     SCRIPTS_DIR = os.path.join(

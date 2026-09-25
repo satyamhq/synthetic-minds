@@ -29,6 +29,11 @@
     "title": "Synthetic Minds - Multi-Agent Simulation Platform",
     "description": "Synthetic Minds - A multi-agent synthetic-world simulation and intelligence platform for modeling interactions between autonomous AI agents and exploring possible outcomes."
   },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The simulation, report, or pathway you requested does not exist or has been relocated.",
+    "returnHome": "Return to Synthetic Minds"
+  },
   "nav": {
     "visitGithub": "Visit our Github page"
   },

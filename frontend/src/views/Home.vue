@@ -222,6 +222,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import HistoryDatabase from '../components/HistoryDatabase.vue'
 import LanguageSwitcher from '../components/LanguageSwitcher.vue'
+import { setPendingUpload } from '../store/pendingUpload'
 
 const router = useRouter()
 
@@ -305,14 +306,12 @@ const startSimulation = () => {
   if (!canSubmit.value || loading.value) return
   
   // Store pending upload data
-  import('../store/pendingUpload.js').then(({ setPendingUpload }) => {
-    setPendingUpload(files.value, formData.value.simulationRequirement)
-    
-    // Transition to Process page for new project
-    router.push({
-      name: 'Process',
-      params: { projectId: 'new' }
-    })
+  setPendingUpload(files.value, formData.value.simulationRequirement)
+  
+  // Transition to Process page for new project
+  router.push({
+    name: 'Process',
+    params: { projectId: 'new' }
   })
 }
 </script>

@@ -136,10 +136,7 @@ class SimulationManager:
     4. Prepare artifacts for execution
     """
     
-    SIMULATION_DATA_DIR = os.path.join(
-        os.path.dirname(__file__), 
-        '../../uploads/simulations'
-    )
+    SIMULATION_DATA_DIR = Config.OASIS_SIMULATION_DATA_DIR
     
     def __init__(self):
         os.makedirs(self.SIMULATION_DATA_DIR, exist_ok=True)

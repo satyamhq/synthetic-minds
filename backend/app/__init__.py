@@ -66,10 +66,34 @@ def create_app(config_class=Config):
     app.register_blueprint(simulation_bp, url_prefix='/api/simulation')
     app.register_blueprint(report_bp, url_prefix='/api/report')
     
-    # Health check endpoint
+    # Health check endpoints
     @app.route('/health')
+    @app.route('/api/health')
     def health():
         return {'status': 'ok', 'service': 'Synthetic Minds Backend'}
+
+    # Global error handlers (consistent JSON responses for APIs)
+    @app.errorhandler(400)
+    def handle_bad_request(e):
+        return {'success': False, 'error': str(e.description) if hasattr(e, 'description') else 'Bad Request'}, 400
+
+    @app.errorhandler(404)
+    def handle_not_found(e):
+        return {'success': False, 'error': f"Endpoint not found: {request.path}"}, 404
+
+    @app.errorhandler(405)
+    def handle_method_not_allowed(e):
+        return {'success': False, 'error': 'Method Not Allowed'}, 405
+
+    @app.errorhandler(500)
+    def handle_server_error(e):
+        logger.error(f"Internal server error: {e}", exc_info=True)
+        return {'success': False, 'error': 'Internal server error occurred.'}, 500
+
+    @app.errorhandler(Exception)
+    def handle_unexpected_exception(e):
+        logger.error(f"Unhandled exception: {e}", exc_info=True)
+        return {'success': False, 'error': 'An unexpected error occurred.'}, 500
     
     if should_log_startup:
         logger.info("Synthetic Minds Backend started successfully")

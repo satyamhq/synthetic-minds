@@ -41,7 +41,7 @@ class Config:
     
     # File upload settings
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50MB
-    if os.environ.get('VERCEL'):
+    if os.environ.get('VERCEL') or os.environ.get('VERCEL_ENV') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME') or os.environ.get('NOW_REGION'):
         UPLOAD_FOLDER = '/tmp/uploads'
         OASIS_SIMULATION_DATA_DIR = '/tmp/uploads/simulations'
     else:

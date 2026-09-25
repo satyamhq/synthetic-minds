@@ -21,5 +21,17 @@ export default defineConfig({
         secure: false
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-vue': ['vue', 'vue-router', 'vue-i18n'],
+          'vendor-d3': ['d3'],
+          'vendor-axios': ['axios']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600
   }
 })

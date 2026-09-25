@@ -20,7 +20,7 @@ def _ensure_utf8_stdout():
 
 
 # Log directory path (adapts to /tmp/logs in serverless/Vercel environments)
-if os.environ.get('VERCEL'):
+if os.environ.get('VERCEL') or os.environ.get('VERCEL_ENV') or os.environ.get('AWS_LAMBDA_FUNCTION_NAME') or os.environ.get('NOW_REGION'):
     LOG_DIR = '/tmp/logs'
 else:
     LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
