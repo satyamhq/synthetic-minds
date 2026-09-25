@@ -4,11 +4,17 @@ Thumbs.db
 
 # Environment Variables (Protect Sensitive Credentials)
 .env
+.env.*
+*.env
 .env.local
 .env.*.local
 .env.development
 .env.test
 .env.production
+
+# Vercel
+.vercel
+
 
 # Python
 __pycache__/

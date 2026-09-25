@@ -41,7 +41,12 @@ class Config:
     
     # File upload settings
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024  # 50MB
-    UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '../uploads')
+    if os.environ.get('VERCEL'):
+        UPLOAD_FOLDER = '/tmp/uploads'
+        OASIS_SIMULATION_DATA_DIR = '/tmp/uploads/simulations'
+    else:
+        UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), '../uploads')
+        OASIS_SIMULATION_DATA_DIR = os.path.join(os.path.dirname(__file__), '../uploads/simulations')
     ALLOWED_EXTENSIONS = {'pdf', 'md', 'txt', 'markdown'}
     
     # Text processing settings
@@ -50,7 +55,6 @@ class Config:
     
     # OASIS simulation settings
     OASIS_DEFAULT_MAX_ROUNDS = int(os.environ.get('OASIS_DEFAULT_MAX_ROUNDS', '10'))
-    OASIS_SIMULATION_DATA_DIR = os.path.join(os.path.dirname(__file__), '../uploads/simulations')
     
     # OASIS platform available actions
     OASIS_TWITTER_ACTIONS = [

@@ -19,8 +19,11 @@ def _ensure_utf8_stdout():
             sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 
-# Log directory path
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
+# Log directory path (adapts to /tmp/logs in serverless/Vercel environments)
+if os.environ.get('VERCEL'):
+    LOG_DIR = '/tmp/logs'
+else:
+    LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
 
 
 def setup_logger(name: str = 'synthetic_minds', level: int = logging.DEBUG) -> logging.Logger:
@@ -34,9 +37,6 @@ def setup_logger(name: str = 'synthetic_minds', level: int = logging.DEBUG) -> l
     Returns:
         Configured logging.Logger instance
     """
-    # Ensure log directory exists
-    os.makedirs(LOG_DIR, exist_ok=True)
-    
     # Create or retrieve logger
     logger_instance = logging.getLogger(name)
     logger_instance.setLevel(level)
@@ -59,25 +59,27 @@ def setup_logger(name: str = 'synthetic_minds', level: int = logging.DEBUG) -> l
         datefmt='%H:%M:%S'
     )
     
-    # 1. Rotating File Handler - Detailed logs
-    log_filename = datetime.now().strftime('%Y-%m-%d') + '.log'
-    file_handler = RotatingFileHandler(
-        os.path.join(LOG_DIR, log_filename),
-        maxBytes=10 * 1024 * 1024,  # 10MB
-        backupCount=5,
-        encoding='utf-8'
-    )
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(detailed_formatter)
+    # 1. Rotating File Handler - Detailed logs (safe on serverless/read-only)
+    try:
+        os.makedirs(LOG_DIR, exist_ok=True)
+        log_filename = datetime.now().strftime('%Y-%m-%d') + '.log'
+        file_handler = RotatingFileHandler(
+            os.path.join(LOG_DIR, log_filename),
+            maxBytes=10 * 1024 * 1024,  # 10MB
+            backupCount=5,
+            encoding='utf-8'
+        )
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(detailed_formatter)
+        logger_instance.addHandler(file_handler)
+    except (OSError, PermissionError):
+        pass
     
     # 2. Console Handler - Clean logs for INFO and above
     _ensure_utf8_stdout()
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(simple_formatter)
-    
-    # Attach handlers
-    logger_instance.addHandler(file_handler)
     logger_instance.addHandler(console_handler)
     
     return logger_instance
