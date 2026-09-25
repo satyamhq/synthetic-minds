@@ -12,6 +12,7 @@ from typing import Dict, Any, List, Optional
 from enum import Enum
 from dataclasses import dataclass, field, asdict
 from ..config import Config
+from ..utils.security import safe_join_path, is_safe_id
 
 
 class ProjectStatus(str, Enum):
@@ -118,7 +119,9 @@ class ProjectManager:
     @classmethod
     def _get_project_dir(cls, project_id: str) -> str:
         """Get path to project directory."""
-        return os.path.join(cls.PROJECTS_DIR, project_id)
+        if not is_safe_id(project_id):
+            raise ValueError(f"Invalid project_id: {project_id}")
+        return safe_join_path(cls.PROJECTS_DIR, project_id)
     
     @classmethod
     def _get_project_meta_path(cls, project_id: str) -> str:

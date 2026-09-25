@@ -14,6 +14,7 @@ from enum import Enum
 
 from ..config import Config
 from ..utils.logger import get_logger
+from ..utils.security import safe_join_path, is_safe_id
 from .zep_entity_reader import ZepEntityReader, FilteredEntities
 from .oasis_profile_generator import OasisProfileGenerator, OasisAgentProfile
 from .simulation_config_generator import SimulationConfigGenerator, SimulationParameters
@@ -144,7 +145,9 @@ class SimulationManager:
     
     def _get_simulation_dir(self, simulation_id: str) -> str:
         """Get simulation data directory."""
-        sim_dir = os.path.join(self.SIMULATION_DATA_DIR, simulation_id)
+        if not is_safe_id(simulation_id):
+            raise ValueError(f"Invalid simulation_id: {simulation_id}")
+        sim_dir = safe_join_path(self.SIMULATION_DATA_DIR, simulation_id)
         os.makedirs(sim_dir, exist_ok=True)
         return sim_dir
     

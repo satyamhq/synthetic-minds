@@ -116,7 +116,7 @@ def get_graph_entities(graph_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -149,7 +149,7 @@ def get_entity_detail(graph_id: str, entity_uuid: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -186,7 +186,7 @@ def get_entities_by_type(graph_id: str, entity_type: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -263,7 +263,7 @@ def create_simulation():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -670,7 +670,7 @@ def prepare_simulation():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -816,7 +816,7 @@ def get_simulation(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -845,7 +845,7 @@ def list_simulations():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1018,7 +1018,7 @@ def get_simulation_history():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1056,7 +1056,7 @@ def get_simulation_profiles(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1171,7 +1171,7 @@ def get_simulation_profiles_realtime(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1301,7 +1301,7 @@ def get_simulation_config_realtime(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1337,7 +1337,7 @@ def get_simulation_config(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1366,7 +1366,7 @@ def download_simulation_config(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1418,7 +1418,7 @@ def download_simulation_script(script_name: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1492,7 +1492,7 @@ def generate_profiles():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1781,7 +1781,7 @@ def start_simulation():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1856,7 +1856,7 @@ def stop_simulation():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -1916,7 +1916,7 @@ def get_run_status(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2017,7 +2017,7 @@ def get_run_status_detail(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2071,7 +2071,7 @@ def get_simulation_actions(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2111,7 +2111,7 @@ def get_simulation_timeline(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2136,7 +2136,7 @@ def get_agent_stats(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2216,7 +2216,7 @@ def get_simulation_posts(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2293,7 +2293,7 @@ def get_simulation_comments(simulation_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2424,7 +2424,7 @@ def interview_agent():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2562,7 +2562,7 @@ def interview_agents_batch():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2665,7 +2665,7 @@ def interview_all_agents():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2737,7 +2737,7 @@ def get_interview_history():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2802,7 +2802,7 @@ def get_env_status():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -2872,5 +2872,5 @@ def close_simulation_env():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500

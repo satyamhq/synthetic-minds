@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: synthetic-minds
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "npm --prefix frontend install && npm --prefix frontend run build && pip install -r requirements.txt"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 wsgi:app"
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: NODE_VERSION
+        value: 18.20.0
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ZEP_API_KEY
+        sync: false

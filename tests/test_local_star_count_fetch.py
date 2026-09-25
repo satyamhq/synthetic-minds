@@ -5,9 +5,14 @@ import os
 import threading
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
+import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from unittest.mock import patch
+
+root_dir = Path(__file__).resolve().parent.parent
+if str(root_dir) not in sys.path:
+    sys.path.insert(0, str(root_dir))
 
 from scripts import fetch_star_count
 

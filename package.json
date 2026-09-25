@@ -9,7 +9,9 @@
     "dev": "concurrently --kill-others -n \"backend,frontend\" -c \"green,cyan\" \"npm run backend\" \"npm run frontend\"",
     "backend": "cd backend && uv run python run.py",
     "frontend": "cd frontend && npm run dev",
-    "build": "cd frontend && npm install && npm run build && node -e \"const fs = require('fs'); fs.cpSync('dist', '../dist', {recursive: true});\""
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:render": "npm --prefix frontend install && npm --prefix frontend run build && pip install -r requirements.txt",
+    "start": "gunicorn --bind 0.0.0.0:${PORT:-5001} wsgi:app"
   },
   "devDependencies": {
     "concurrently": "^9.2.4"

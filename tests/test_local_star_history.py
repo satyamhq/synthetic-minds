@@ -10,8 +10,13 @@ import xml.etree.ElementTree as ET
 from contextlib import redirect_stderr, redirect_stdout
 from copy import deepcopy
 from datetime import datetime, timezone
+import sys
 from pathlib import Path
 from unittest.mock import patch
+
+root_dir = Path(__file__).resolve().parent.parent
+if str(root_dir) not in sys.path:
+    sys.path.insert(0, str(root_dir))
 
 from scripts import star_history
 

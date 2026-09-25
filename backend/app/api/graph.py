@@ -308,13 +308,9 @@ def generate_ontology():
                 "error": t('api.requireSimulationRequirement')
             }), 400
         
-        # Get uploaded files
+        # Get uploaded files (optional - simulation can run with prompt alone)
         uploaded_files = request.files.getlist('files')
-        if not uploaded_files or all(not f.filename for f in uploaded_files):
-            return jsonify({
-                "success": False,
-                "error": t('api.requireFileUpload')
-            }), 400
+        valid_files = [f for f in uploaded_files if f and f.filename and allowed_file(f.filename)]
         
         # Create project
         project = ProjectManager.create_project(name=project_name)
@@ -325,9 +321,8 @@ def generate_ontology():
         document_texts = []
         all_text = ""
         
-        for file in uploaded_files:
-            if file and file.filename and allowed_file(file.filename):
-                # Save file to project directory
+        if valid_files:
+            for file in valid_files:
                 file_info = ProjectManager.save_file_to_project(
                     project.project_id, 
                     file, 
@@ -343,6 +338,21 @@ def generate_ontology():
                 text = TextProcessor.preprocess_text(text)
                 document_texts.append(text)
                 all_text += f"\n\n=== {file_info['original_filename']} ===\n{text}"
+        else:
+            # Running simulation with prompt alone (no file upload required)
+            scenario_brief = f"=== Scenario Context & Objectives ===\n{simulation_requirement}"
+            brief_filename = "scenario_context.txt"
+            files_dir = ProjectManager._get_project_files_dir(project.project_id)
+            brief_path = os.path.join(files_dir, brief_filename)
+            with open(brief_path, "w", encoding="utf-8") as bf:
+                bf.write(scenario_brief)
+            
+            project.files.append({
+                "filename": brief_filename,
+                "size": len(scenario_brief.encode("utf-8"))
+            })
+            document_texts.append(scenario_brief)
+            all_text = scenario_brief
         
         if not document_texts:
             ProjectManager.delete_project(project.project_id)
@@ -835,7 +845,7 @@ def _build_graph_impl():
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -900,7 +910,7 @@ def get_graph_data(graph_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500
 
 
@@ -959,5 +969,5 @@ def delete_graph(graph_id: str):
         return jsonify({
             "success": False,
             "error": str(e),
-            "traceback": traceback.format_exc()
+            **({"traceback": traceback.format_exc()} if Config.DEBUG else {})
         }), 500

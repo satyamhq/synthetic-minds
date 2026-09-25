@@ -19,6 +19,7 @@ from datetime import datetime
 from enum import Enum
 
 from ..config import Config
+from ..utils.security import safe_join_path, is_safe_id
 from ..utils.llm_client import LLMClient
 from ..utils.logger import get_logger
 from ..utils.locale import get_language_instruction, t
@@ -1916,7 +1917,9 @@ class ReportManager:
     @classmethod
     def _get_report_folder(cls, report_id: str) -> str:
         """Get report folder path."""
-        return os.path.join(cls.REPORTS_DIR, report_id)
+        if not is_safe_id(report_id):
+            raise ValueError(f"Invalid report_id: {report_id}")
+        return safe_join_path(cls.REPORTS_DIR, report_id)
     
     @classmethod
     def _ensure_report_folder(cls, report_id: str) -> str:

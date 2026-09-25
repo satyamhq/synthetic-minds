@@ -193,21 +193,23 @@ const initProject = async () => {
 
 const handleNewProject = async () => {
   const pending = getPendingUpload()
-  if (!pending.isPending || pending.files.length === 0) {
-    error.value = 'No pending files found.'
-    addLog('Error: No pending files found for new project.')
+  if (!pending.isPending || (!pending.simulationRequirement?.trim() && (!pending.files || pending.files.length === 0))) {
+    error.value = 'No simulation requirement found.'
+    addLog('Error: Please provide a simulation requirement to initialize.')
     return
   }
   
   try {
     loading.value = true
     currentPhase.value = 0
-    ontologyProgress.value = { message: 'Uploading and analyzing docs...' }
-    addLog('Starting ontology generation: Uploading files...')
+    ontologyProgress.value = { message: 'Analyzing scenario context and generating ontology...' }
+    addLog('Initializing simulation from scenario context...')
     
     const formData = new FormData()
-    pending.files.forEach(f => formData.append('files', f))
-    formData.append('simulation_requirement', pending.simulationRequirement)
+    if (pending.files && pending.files.length > 0) {
+      pending.files.forEach(f => formData.append('files', f))
+    }
+    formData.append('simulation_requirement', pending.simulationRequirement || '')
     
     const res = await generateOntology(formData)
     if (res.success) {
