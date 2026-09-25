@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      const l = localStorage.getItem('locale');
+      document.documentElement.lang = (l === 'hi') ? 'hi' : 'en';
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Synthetic Minds - A multi-agent synthetic-world simulation and intelligence platform for modeling interactions between autonomous AI agents and exploring possible outcomes." />
+    <meta property="og:title" content="Synthetic Minds - Multi-Agent Simulation Platform" />
+    <meta property="og:description" content="Build synthetic worlds. Simulate intelligent agents. Explore what happens next." />
+    <title>Synthetic Minds - Multi-Agent Simulation Platform</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
